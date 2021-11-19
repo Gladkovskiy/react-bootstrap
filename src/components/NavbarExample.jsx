@@ -1,5 +1,12 @@
 import React from 'react'
-import {Navbar, Button, Nav, Container} from 'react-bootstrap'
+import {
+  Navbar,
+  Button,
+  Nav,
+  Container,
+  Dropdown,
+  NavDropdown,
+} from 'react-bootstrap'
 import {
   MAIN_ROUTE,
   COMPONENT_1_ROUTE,
@@ -19,25 +26,69 @@ const NavbarExample = () => {
   const Active = path => !!useMatch(path)
 
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="dark" variant="dark" expand="lg" className="p-3" fixed="top">
       <Container>
-        <Link to={MAIN_ROUTE} className="text-light fw-bold">
+        <Link to={MAIN_ROUTE} className="text-light fw-bold ">
           REACT BOOTSTRAP
         </Link>
-        <Nav className="ms-auto">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            {linkInfo.map(({path, name}) => (
+              <Nav.Link
+                key={path}
+                onClick={() => navigate(path)}
+                style={{fontFamily: 'Roboto'}}
+                active={Active(path)}
+              >
+                {name}
+              </Nav.Link>
+            ))}
+            <NavDropdown title="Menu" menuVariant="dark">
+              {linkInfo.map(({path, name}) => (
+                <NavDropdown.Item
+                  key={path}
+                  onClick={() => navigate(path)}
+                  style={{fontFamily: 'Roboto'}}
+                  active={Active(path)}
+                >
+                  {name}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+
+        {/* <NavDropdown title="Menu" menuVariant="dark">
           {linkInfo.map(({path, name}) => (
-            <Button
+            <NavDropdown.Item
+              className="border-0"
               key={path}
-              variant="outline-light"
-              className="ms-3 fw-bold"
               onClick={() => navigate(path)}
-              disabled={Active(path)}
               style={{fontFamily: 'Roboto'}}
+              active={Active(path)}
             >
               {name}
-            </Button>
+            </NavDropdown.Item>
           ))}
-        </Nav>
+        </NavDropdown> */}
+
+        {/* <Col>
+              <Nav className="ms-auto">
+                {linkInfo.map(({path, name}) => (
+                  <Button
+                    key={path}
+                    variant="outline-light"
+                    className="ms-3 fw-bold"
+                    onClick={() => navigate(path)}
+                    disabled={Active(path)}
+                    style={{fontFamily: 'Roboto'}}
+                  >
+                    {name}
+                  </Button>
+                ))}
+              </Nav>
+            </Col> */}
       </Container>
     </Navbar>
   )
